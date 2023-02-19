@@ -1,0 +1,778 @@
+{
+	"info": {
+		"_postman_id": "2d492379-a4aa-4262-abcd-a54c786b749d",
+		"name": "Debezium.Ticket",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14502181"
+	},
+	"item": [
+		{
+			"name": "Debezium",
+			"item": [
+				{
+					"name": "Update Connector",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"connector.class\": \"io.debezium.connector.postgresql.PostgresConnector\",\r\n    \"tasks.max\": \"1\",\r\n    \"database.hostname\": \"postgres\",\r\n    \"database.port\": \"5432\",\r\n    \"database.user\": \"admin\",\r\n    \"database.password\": \"admin\",\r\n    \"database.dbname\": \"DebeziumTicketDb\",\r\n    \"database.server.name\": \"postgres\",\r\n    \"schema.include.list\": \"public\",\r\n    \"table.include.list\": \"public.TicketOutbox\",\r\n    \"tombstones.on.delete\": \"false\",\r\n    \r\n    \"value.converter.schemas.enable\": false,\r\n    \"plugin.name\": \"pgoutput\",\r\n    \"topic.prefix\": \"PgDbSample\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/connectors/ticket-outbox-connector/config",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"connectors",
+								"ticket-outbox-connector",
+								"config"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Connector",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"connector.class\": \"io.debezium.connector.sqlserver.SqlServerConnector\",\r\n    \"tasks.max\": \"1\",\r\n    \"topic.prefix\": \"sqlserver\",\r\n    \"database.hostname\": \"sqlserver\",\r\n    \"database.port\": \"1433\",\r\n    \"database.user\": \"sa\",\r\n    \"database.password\": \"Ayb12345t\",\r\n    \"database.names\": \"DebeziumTicketDb\",\r\n    \"schema.history.internal.kafka.bootstrap.servers\": \"kafka:9092\",\r\n    \"schema.history.internal.kafka.topic\": \"DebeziumTicketDb.dbo.TicketOutbox\",\r\n    \"database.encrypt\": \"false\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8083/connectors/ticket-outbox-connector/config",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"connectors",
+										"ticket-outbox-connector",
+										"config"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 16 Feb 2023 20:25:45 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "575"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.4.48.v20220622)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"ticket-outbox-connector\",\n    \"config\": {\n        \"connector.class\": \"io.debezium.connector.sqlserver.SqlServerConnector\",\n        \"tasks.max\": \"1\",\n        \"topic.prefix\": \"sqlserver\",\n        \"database.hostname\": \"sqlserver\",\n        \"database.port\": \"1433\",\n        \"database.user\": \"sa\",\n        \"database.password\": \"Ayb12345t\",\n        \"database.names\": \"DebeziumTicketDb\",\n        \"schema.history.internal.kafka.bootstrap.servers\": \"kafka:9092\",\n        \"schema.history.internal.kafka.topic\": \"DebeziumTicketDb.dbo.TicketOutbox\",\n        \"database.encrypt\": \"false\",\n        \"name\": \"ticket-outbox-connector\"\n    },\n    \"tasks\": [\n        {\n            \"connector\": \"ticket-outbox-connector\",\n            \"task\": 0\n        }\n    ],\n    \"type\": \"source\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Connector",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"pputbox-connector\",\r\n    \"config\": {\r\n        \"connector.class\": \"io.debezium.connector.postgresql.PostgresConnector\",\r\n        \"tasks.max\": \"1\",\r\n        \"database.hostname\": \"postgres\",\r\n        \"database.port\": \"5432\",\r\n        \"database.user\": \"admin\",\r\n        \"database.password\": \"admin\",\r\n        \"database.dbname\": \"DebeziumTicketDb\",\r\n        \"database.server.name\": \"postgres\",\r\n        \"schema.include.list\": \"public\",\r\n        \"table.include.list\": \"public.OutboxEvents\",\r\n        \"tombstones.on.delete\": \"false\",\r\n        \"transforms\": \"outbox\",\r\n        \"transforms.outbox.type\": \"io.debezium.transforms.outbox.EventRouter\",\r\n        \"transforms.outbox.table.field.event.id\": \"Id\",\r\n        \"transforms.outbox.table.field.event.key\": \"AggregateId\",\r\n        \"transforms.outbox.table.field.event.payload\": \"Payload\",\r\n        \"transforms.outbox.table.expand.json.payload\": true,\r\n        \"transforms.outbox.route.by.field\": \"AggregateType\",\r\n        \"transforms.outbox.route.topic.replacement\": \"${routedByValue}.events\",\r\n        \"transforms.outbox.table.fields.additional.placement\": \"Type:header:eventType\",\r\n        \"value.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\r\n        \"value.converter.schemas.enable\": false,\r\n        \"plugin.name\": \"pgoutput\",\r\n        \"topic.prefix\": \"PgDbSample\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/connectors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"connectors"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Connector",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"ticket-outbox-connector\",\r\n  \"config\": {\r\n    \"connector.class\": \"io.debezium.connector.sqlserver.SqlServerConnector\",\r\n    \"tasks.max\": \"1\",\r\n    \"topic.prefix\": \"sqlserver\",\r\n    \"database.hostname\": \"sqlserver\",\r\n    \"database.port\": \"1433\",\r\n    \"database.user\": \"sa\",\r\n    \"database.password\": \"Ayb12345t\",\r\n    \"database.names\": \"DebeziumTicketDb\",\r\n    \"schema.history.internal.kafka.bootstrap.servers\": \"kafka:9092\",\r\n    \"schema.history.internal.kafka.topic\": \"sqlserver.DebeziumTicketDb.dbo.TicketOutbox\",\r\n    \"key.converter.schemas.enable\": \"false\",\r\n    \"include.schema.changes\": \"false\",\r\n    \"value.converter.schemas.enable\": \"false\",\r\n    \"database.encrypt\": \"false\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8083/connectors",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"connectors"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 16 Feb 2023 14:57:48 GMT"
+								},
+								{
+									"key": "Location",
+									"value": "http://localhost:8083/connectors/ticket-outbox-connector"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "650"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.4.48.v20220622)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"ticket-outbox-connector\",\n    \"config\": {\n        \"connector.class\": \"io.debezium.connector.sqlserver.SqlServerConnector\",\n        \"tasks.max\": \"1\",\n        \"topic.prefix\": \"sqlserver\",\n        \"database.hostname\": \"sqlserver\",\n        \"database.port\": \"1433\",\n        \"database.user\": \"sa\",\n        \"database.password\": \"Ayb12345t\",\n        \"database.names\": \"DebeziumTicketDb\",\n        \"schema.history.internal.kafka.bootstrap.servers\": \"kafka:9092\",\n        \"schema.history.internal.kafka.topic\": \"sqlserver.DebeziumTicketDb.dbo.TicketOutbox\",\n        \"key.converter.schemas.enable\": \"false\",\n        \"include.schema.changes\": \"false\",\n        \"value.converter.schemas.enable\": \"false\",\n        \"database.encrypt\": \"false\",\n        \"name\": \"ticket-outbox-connector\"\n    },\n    \"tasks\": [],\n    \"type\": \"source\"\n}"
+						},
+						{
+							"name": "Add Postgres Connector",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"ticket-outbox-connector\",\r\n    \"config\": {\r\n        \"connector.class\": \"io.debezium.connector.postgresql.PostgresConnector\",\r\n        \"tasks.max\": \"1\",\r\n        \"plugin.name\": \"pgoutput\",\r\n        \"topic.prefix\": \"PgDbSample\",\r\n        \"database.hostname\": \"postgres\",\r\n        \"database.port\": \"5432\",\r\n        \"database.user\": \"admin\",\r\n        \"database.password\": \"admin\",\r\n        \"database.dbname\": \"DebeziumTicketDb\",\r\n        \"database.server.name\": \"postgres\",\r\n        \"schema.include.list\": \"public\",\r\n        \"table.include.list\": \"public.TicketOutbox\",\r\n        \"tombstones.on.delete\": \"false\",\r\n        \"transforms\": \"outbox\",\r\n        \"transforms.outbox.type\": \"io.debezium.transforms.outbox.EventRouter\",\r\n        \"transforms.outbox.table.field.event.id\": \"Id\",\r\n        \"transforms.outbox.table.field.event.key\": \"AggregateId\",\r\n        \"transforms.outbox.table.field.event.timestamp\": \"Timestamp\",\r\n        \"transforms.outbox.table.field.event.payload\": \"Payload\",\r\n        \"transforms.outbox.table.expand.json.payload\": true,\r\n        \"transforms.outbox.route.by.field\": \"AggregateType\",\r\n        \"transforms.outbox.table.field.event.type\": \"type\",\r\n        \"transforms.outbox.table.field.event.payload.id\": \"AggregateId\",\r\n        \"transforms.outbox.table.fields.additional.placement\": \"type:header:eventType\",\r\n        \"transforms.outbox.route.topic.replacement\": \"ticket_events\",\r\n        \"key.converter\": \"org.apache.kafka.connect.storage.StringConverter\",\r\n        \"value.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\r\n        \"key.converter.schemas.enable\": \"false\",\r\n        \"include.schema.changes\": \"false\",\r\n        \"value.converter.schemas.enable\": \"false\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8083/connectors",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"connectors"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 16 Feb 2023 21:54:19 GMT"
+								},
+								{
+									"key": "Location",
+									"value": "http://localhost:8083/connectors/ticket-outbox-connector"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1435"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.4.48.v20220622)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"ticket-outbox-connector\",\n    \"config\": {\n        \"connector.class\": \"io.debezium.connector.postgresql.PostgresConnector\",\n        \"tasks.max\": \"1\",\n        \"plugin.name\": \"pgoutput\",\n        \"topic.prefix\": \"PgDbSample\",\n        \"database.hostname\": \"postgres\",\n        \"database.port\": \"5432\",\n        \"database.user\": \"admin\",\n        \"database.password\": \"admin\",\n        \"database.dbname\": \"DebeziumTicketDb\",\n        \"database.server.name\": \"postgres\",\n        \"schema.include.list\": \"public\",\n        \"table.include.list\": \"public.TicketOutbox\",\n        \"tombstones.on.delete\": \"false\",\n        \"transforms\": \"outbox\",\n        \"transforms.outbox.type\": \"io.debezium.transforms.outbox.EventRouter\",\n        \"transforms.outbox.table.field.event.id\": \"Id\",\n        \"transforms.outbox.table.field.event.key\": \"AggregateId\",\n        \"transforms.outbox.table.field.event.timestamp\": \"Timestamp\",\n        \"transforms.outbox.table.field.event.payload\": \"Payload\",\n        \"transforms.outbox.table.expand.json.payload\": \"true\",\n        \"transforms.outbox.route.by.field\": \"AggregateType\",\n        \"transforms.outbox.table.field.event.type\": \"type\",\n        \"transforms.outbox.table.field.event.payload.id\": \"AggregateId\",\n        \"transforms.outbox.table.fields.additional.placement\": \"type:header:eventType\",\n        \"transforms.outbox.route.topic.replacement\": \"ticket_events\",\n        \"key.converter\": \"org.apache.kafka.connect.storage.StringConverter\",\n        \"value.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\n        \"key.converter.schemas.enable\": \"false\",\n        \"include.schema.changes\": \"false\",\n        \"value.converter.schemas.enable\": \"false\",\n        \"name\": \"ticket-outbox-connector\"\n    },\n    \"tasks\": [],\n    \"type\": \"source\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Connectors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8083/connectors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"connectors"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Connectors",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8083/connectors",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"connectors"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 16 Feb 2023 20:25:55 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "27"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.4.48.v20220622)"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    \"ticket-outbox-connector\"\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Connector By Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8083/connectors/outbox-connector",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"connectors",
+								"outbox-connector"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Connector By Name",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8083/connectors/ticket-outbox-connector",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"connectors",
+										"ticket-outbox-connector"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 16 Feb 2023 20:26:09 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "575"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.4.48.v20220622)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"ticket-outbox-connector\",\n    \"config\": {\n        \"connector.class\": \"io.debezium.connector.sqlserver.SqlServerConnector\",\n        \"database.encrypt\": \"false\",\n        \"topic.prefix\": \"sqlserver\",\n        \"database.user\": \"sa\",\n        \"database.names\": \"DebeziumTicketDb\",\n        \"schema.history.internal.kafka.topic\": \"DebeziumTicketDb.dbo.TicketOutbox\",\n        \"tasks.max\": \"1\",\n        \"database.hostname\": \"sqlserver\",\n        \"database.password\": \"Ayb12345t\",\n        \"name\": \"ticket-outbox-connector\",\n        \"schema.history.internal.kafka.bootstrap.servers\": \"kafka:9092\",\n        \"database.port\": \"1433\"\n    },\n    \"tasks\": [\n        {\n            \"connector\": \"ticket-outbox-connector\",\n            \"task\": 0\n        }\n    ],\n    \"type\": \"source\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Connector",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8083/connectors/ticket-outbox-connector",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"connectors",
+								"ticket-outbox-connector"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Connector",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8083/connectors/ticket-outbox-connector",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"connectors",
+										"ticket-outbox-connector"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 17 Feb 2023 12:20:20 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.4.48.v20220622)"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8083/connectors/ticket-outbox-connector/tasks/0/status",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"connectors",
+								"ticket-outbox-connector",
+								"tasks",
+								"0",
+								"status"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Status",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8083/connectors/ticket-outbox-connector/tasks/0/status",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"connectors",
+										"ticket-outbox-connector",
+										"tasks",
+										"0",
+										"status"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 16 Feb 2023 20:55:44 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "59"
+								},
+								{
+									"key": "Server",
+									"value": "Jetty(9.4.48.v20220622)"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 0,\n    \"state\": \"RUNNING\",\n    \"worker_id\": \"192.168.112.7:8083\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Db Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8083/connectors/TicketDebeziumDb/status",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"connectors",
+								"TicketDebeziumDb",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ticket.Api",
+			"item": [
+				{
+					"name": "Add Ticket",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"email\": \"aybars@gmail.com\",\r\n    \"firstName\": \"aybars\",\r\n    \"lastName\": \"arslan\",\r\n    \"phoneNumber\": \"1903\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/ticket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"ticket"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Ticket",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n    \"email\": \"aybars@gmail.com\",\r\n    \"firstName\": \"aybars\",\r\n    \"lastName\": \"arslan\",\r\n    \"phoneNumber\": \"1903\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/ticket",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ticket"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 19 Feb 2023 15:00:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "Update Ticket",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"email\": \"berk@gmail.com\",\r\n    \"firstName\": \"mustafa berk\",\r\n    \"lastName\": \"cerdik\",\r\n    \"phoneNumber\": \"1917\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/ticket/:ticketId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"ticket",
+								":ticketId"
+							],
+							"variable": [
+								{
+									"key": "ticketId",
+									"value": "adb11103-1298-4a6c-9fbd-60d19e00d471"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Ticket",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n    \"email\": \"berk@gmail.com\",\r\n    \"firstName\": \"mustafa berk\",\r\n    \"lastName\": \"cerdik\",\r\n    \"phoneNumber\": \"1917\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/ticket/:ticketId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ticket",
+										":ticketId"
+									],
+									"variable": [
+										{
+											"key": "ticketId",
+											"value": "adb11103-1298-4a6c-9fbd-60d19e00d471"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 19 Feb 2023 15:38:59 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				},
+				{
+					"name": "Delete Ticket",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"email\": \"ayb@gmail.com\",\r\n    \"firstName\": \"ayb\",\r\n    \"lastName\": \"ars\",\r\n    \"phoneNumber\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/ticket/:ticketId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"ticket",
+								":ticketId"
+							],
+							"variable": [
+								{
+									"key": "ticketId",
+									"value": "adb11103-1298-4a6c-9fbd-60d19e00d471"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

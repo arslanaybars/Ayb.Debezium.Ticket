@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C86B7629-F220-4114-904B-E1C984E8BDFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ayb.Debezium.Ticket.Api", "src\Ayb.Debezium.Ticket.Api\Ayb.Debezium.Ticket.Api.csproj", "{41C33855-A1F8-4440-949F-5B6E35D83F26}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution-items", "solution-items", "{9B347DA9-00E6-479D-A203-C53E1C4F781C}"
+	ProjectSection(SolutionItems) = preProject
+		snippets\sql-scripts.sql = snippets\sql-scripts.sql
+		snippets\postgres-debezium-ticket-connector.json = snippets\postgres-debezium-ticket-connector.json
+		snippets\sqlserver-debezium-ticket-connector.json = snippets\sqlserver-debezium-ticket-connector.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ayb.Debezium.Kafka", "src\Ayb.Debezium.Kafka\Ayb.Debezium.Kafka.csproj", "{68ADF979-56B6-45A5-9028-A749E186ED69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ayb.Debezium.Ticket.Consumer", "src\Ayb.Debezium.Ticket.Consumer\Ayb.Debezium.Ticket.Consumer.csproj", "{C6D59531-9E64-4188-87CA-1E4138F6AA2B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{41C33855-A1F8-4440-949F-5B6E35D83F26} = {C86B7629-F220-4114-904B-E1C984E8BDFB}
+		{68ADF979-56B6-45A5-9028-A749E186ED69} = {C86B7629-F220-4114-904B-E1C984E8BDFB}
+		{C6D59531-9E64-4188-87CA-1E4138F6AA2B} = {C86B7629-F220-4114-904B-E1C984E8BDFB}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41C33855-A1F8-4440-949F-5B6E35D83F26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41C33855-A1F8-4440-949F-5B6E35D83F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41C33855-A1F8-4440-949F-5B6E35D83F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41C33855-A1F8-4440-949F-5B6E35D83F26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68ADF979-56B6-45A5-9028-A749E186ED69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68ADF979-56B6-45A5-9028-A749E186ED69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68ADF979-56B6-45A5-9028-A749E186ED69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68ADF979-56B6-45A5-9028-A749E186ED69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6D59531-9E64-4188-87CA-1E4138F6AA2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6D59531-9E64-4188-87CA-1E4138F6AA2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6D59531-9E64-4188-87CA-1E4138F6AA2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6D59531-9E64-4188-87CA-1E4138F6AA2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

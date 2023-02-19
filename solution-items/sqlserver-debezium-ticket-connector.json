@@ -1,0 +1,19 @@
+{
+  "name": "ticket-outbox-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.sqlserver.SqlServerConnector",
+    "tasks.max": "1",
+    "topic.prefix": "sqlserver",
+    "database.hostname": "sqlserver",
+    "database.port": "1433",
+    "database.user": "sa",
+    "database.password": "Ayb12345t",
+    "database.names": "DebeziumTicketDb",
+    "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
+    "schema.history.internal.kafka.topic": "sqlserver.DebeziumTicketDb.dbo.TicketOutbox",
+    "key.converter.schemas.enable": "false",
+    "include.schema.changes": "false",
+    "value.converter.schemas.enable": "false",
+    "database.encrypt": "false"
+  }
+}

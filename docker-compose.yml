@@ -1,0 +1,109 @@
+version: '3.7'
+
+services:
+
+  mongo:
+    image: mongo:latest
+    ports:
+    - '27017:27017'
+    networks:
+    - debezium-ticket-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+    - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    networks:
+    - debezium-ticket-network
+
+  postgres:
+    image: quay.io/debezium/example-postgres:latest
+    ports:
+     - 5432:5432
+    environment:
+     - POSTGRES_USER=admin
+     - POSTGRES_PASSWORD=admin
+    networks:
+    - debezium-ticket-network
+  # sqlserver:
+    # image: mcr.microsoft.com/mssql/server
+    # ports:
+    # - 1433:1433
+    # environment:
+    # - ACCEPT_EULA=Y
+    # - MSSQL_PID=Standard
+    # - SA_PASSWORD=Ayb12345t
+    # - MSSQL_AGENT_ENABLED=true
+    # networks:
+    # - debezium-ticket-network
+
+  kafka:
+    image: confluentinc/cp-kafka
+    depends_on:
+    - zookeeper
+    ports:
+    - "29092:29092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LOG_CLEANER_DELETE_RETENTION_MS: 5000
+      KAFKA_BROKER_ID: 1
+    networks:
+    - debezium-ticket-network
+      
+  connector:
+    image: debezium/connect:latest
+    ports:
+    - "8083:8083"
+    environment:
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: my_connect_configs
+      OFFSET_STORAGE_TOPIC: my_connect_offsets
+      BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+    - zookeeper
+    - kafka
+    networks:
+    - debezium-ticket-network
+
+  control-center:
+    image: confluentinc/cp-enterprise-control-center:latest
+    hostname: control-center
+    depends_on:
+      - zookeeper
+      - kafka
+    ports:
+      - "9021:9021"
+    environment:
+      CONTROL_CENTER_BOOTSTRAP_SERVERS: 'kafka:9092'
+      CONTROL_CENTER_ZOOKEEPER_CONNECT: 'zookeeper:32181'
+      #CONTROL_CENTER_KSQL_URL: "http://ksql-server:8088"
+      #CONTROL_CENTER_KSQL_ADVERTISED_URL: "http://localhost:8088"
+      #CONTROL_CENTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+      CONTROL_CENTER_REPLICATION_FACTOR: 1
+      CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
+      CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
+      CONFLUENT_METRICS_TOPIC_REPLICATION: 1
+      PORT: 9021
+    networks:
+    - debezium-ticket-network
+    
+  seq:
+    image: "datalust/seq:2021"
+    hostname: seq
+    ports:
+    - "5341:5341" # ingestion API
+    - "5555:80" # ui
+    environment:
+      ACCEPT_EULA: "Y"
+    networks:
+    - debezium-ticket-network
+  
+networks:
+  debezium-ticket-network:
+    driver: bridge  

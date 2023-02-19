@@ -1,0 +1,27 @@
+{
+  "name": "ticket-outbox-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "admin",
+    "database.password": "admin",
+    "database.dbname": "DebeziumTicketDb",
+    "database.server.name": "postgres",
+    "schema.include.list": "public",
+    "table.include.list": "public.TicketOutbox",
+    "tombstones.on.delete": "false",
+    "transforms": "outbox",
+    "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter",
+    "transforms.outbox.table.field.event.id": "Id",
+    "transforms.outbox.table.field.event.key": "AggregateId",
+    "transforms.outbox.table.field.event.payload": "Payload",
+    "transforms.outbox.table.expand.json.payload": true,
+    "transforms.outbox.route.by.field": "AggregateType",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": false,
+    "plugin.name": "pgoutput",
+    "topic.prefix": "PgDbSample"
+  }
+}

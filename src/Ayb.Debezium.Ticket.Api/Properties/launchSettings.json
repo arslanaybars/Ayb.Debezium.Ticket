@@ -1,0 +1,10 @@
+﻿{
+  "Ayb.Debezium.Ticket.Services": {
+    "commandName": "Project",
+    "launchBrowser": true,
+    "applicationUrl": "http://localhost:5005/swagger",
+    "environmentVariables": {
+      "ASPNETCORE_ENVIRONMENT": "Development"
+    }
+  }
+}
