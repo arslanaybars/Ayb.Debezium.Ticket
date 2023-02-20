@@ -48,6 +48,8 @@ https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-th
 
 https://github.com/suadev/microservices-change-data-capture-with-debezium
 
+https://github.com/joaofbantunes/DebeziumOutboxSample
+
 # Licence
 
 This project is licensed under the MIT License. See the LICENSE file for details.
